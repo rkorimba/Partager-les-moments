@@ -101,5 +101,27 @@ class PhotoController: UIViewController, UIImagePickerControllerDelegate, UINavi
     }
     
     @IBAction func boutonPartageAppuye(_ sender: Any) {
+        
+        var contenuAPartager: [Any] = [Any]()
+        
+        if let image = photoAPartager.image, image != #imageLiteral(resourceName: "Superman-facebook.svg") {
+            contenuAPartager.append(image)
+        }
+        
+        if texteAPartager.text != "", texteAPartager.text != texteVide {
+            contenuAPartager.append(texteAPartager.text)
+        }
+        
+        let activity = UIActivityViewController(activityItems: contenuAPartager, applicationActivities: nil)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            if let pop = activity.popoverPresentationController {
+                pop.sourceView = self.view
+                pop.sourceRect = CGRect(x: self.view.frame.midX, y: self.view.frame.midY, width: 0, height: 0)
+                pop.permittedArrowDirections = []
+            }
+        }
+        self.present(activity, animated: true) {
+            self.miseEnPlace()
+        }
     }
 }
